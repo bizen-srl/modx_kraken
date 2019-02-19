@@ -1,35 +1,15 @@
 {
-    "name": "craftsmancoding/repo-starter",
-    "description": "",
+    "name": "kraken",
+    "description": "A plugin for MODX to optimize images on upload",
     "type": "modx-package",
-    "keywords": ["modx","repoman"],
-    "homepage": "https://github.com/craftsmancoding/repo-starter",
-    "license": "GPL-2.0+",
+    "require": {
+        "kraken-io/kraken-php": "^1.6"
+    },
+    "license": "mit",
     "authors": [
         {
-            "name": "Your Name Here",
-            "email": "you@email.com",
-            "homepage" : "https://craftsmancoding.com/"
-        }        
-    ],
-    "support": {
-        "email": "donotreply@yoursite.com",
-        "issues": "https://github.com/craftsmancoding/repo-starter/issues",
-        "forum": "http://forums.modx.com/",
-        "wiki": "https://github.com/craftsmancoding/repo-starter/wiki",
-        "source": "https://github.com/craftsmancoding/repo-starter.git"
-    },    
-    "require": {
-        "php": ">=5.3"
-    },
-    "autoload": {
-        "classmap":["model/"]
-    },
-    "extra": {
-        "package_name": "YourPackage",
-        "namespace": "yourpackage",
-        "version": "1.0.0",
-        "release": "pl",
-        "category":"Your Package"
-    }
+            "name": "Manuel Barbiero",
+            "email": "manuel.barbiero@bizen.it"
+        }
+    ]
 }
