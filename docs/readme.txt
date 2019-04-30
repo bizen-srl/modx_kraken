@@ -1,11 +1,11 @@
-YourPackage
------
+Kraken
+----
 
-Please put your documentation here: it's what people see when first installing your package.
+Just add your api and secret keys and all images will get optimized on upload
 
 
-Author: You <your@email.com>
-Copyright 2015
+Author: Manuel <manuel@bizen.it>
+Copyright 2019
 
 Official Documentation: https://github.com/
 

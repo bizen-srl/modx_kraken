@@ -7,11 +7,18 @@
 return array(
 
     array(
-        'key'  		=>     'goldentemplate.color',
-		'value'		=>     'Sample Color',
+        'key'  		=>     'kraken.api_key',
+		'value'		=>     '',
 		'xtype'		=>     'textfield',
-		'namespace' => 'goldentemplate',
-		'area' 		=> 'goldentemplate:default'
+		'namespace' => 'kraken',
+		'area' 		=> 'kraken:default'
+    ),
+    array(
+        'key'  		=>     'kraken.api_secret',
+		'value'		=>     '',
+		'xtype'		=>     'textfield',
+		'namespace' => 'kraken',
+		'area' 		=> 'kraken:default'
     ),
 );
 /*EOF*/

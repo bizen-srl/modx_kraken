@@ -11,5 +11,15 @@
             "name": "Manuel Barbiero",
             "email": "manuel.barbiero@bizen.it"
         }
-    ]
+    ],
+    "autoload": {
+        "classmap":["model/"]
+    },
+    "extra": {
+        "package_name": "Kraken",
+        "namespace": "kraken",
+        "version": "1.0.0",
+        "release": "pl",
+        "category":"Kraken"
+    }
 }

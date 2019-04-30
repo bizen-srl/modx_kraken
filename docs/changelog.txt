@@ -1,5 +1,5 @@
-Changelog for YourPackage
+Changelog for Kraken
 
-YourPackage 1.0.0
+Kraken 1.0.0
 ---------------------------------
 Initial Version that I copied from https://github.com/craftsmancoding/repo-starter
