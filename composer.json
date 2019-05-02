@@ -13,7 +13,7 @@
         }
     ],
     "autoload": {
-        "classmap":["model/"]
+        "classmap":["model/seeds"]
     },
     "extra": {
         "package_name": "Kraken",
