@@ -3,7 +3,8 @@
     "description": "A plugin for MODX to optimize images on upload",
     "type": "modx-package",
     "require": {
-        "kraken-io/kraken-php": "^1.6"
+        "kraken-io/kraken-php": "^1.6",
+        "nategood/httpful": "*"
     },
     "license": "mit",
     "authors": [
@@ -13,13 +14,14 @@
         }
     ],
     "autoload": {
-        "classmap":["model/seeds"]
+        "classmap":["model/"]
     },
     "extra": {
         "package_name": "Kraken",
         "namespace": "kraken",
         "version": "1.0.0",
         "release": "pl",
-        "category":"Kraken"
+        "category":"Kraken",
+        "seeds_path": ["model/seeds/"]
     }
 }

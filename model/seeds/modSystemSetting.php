@@ -63,7 +63,7 @@ return array(
 	),
 	array(
         'key'  		=>     'kraken.strategy',
-		'value'		=>     'fit',
+		'value'		=>     'auto',
 		'xtype'		=>     'textfield',
 		'namespace' => 'kraken',
 		'area' 		=> 'kraken:resize'

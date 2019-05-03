@@ -38,6 +38,6 @@ $_lang['setting_kraken.width_desc'] = 'If Resize is enabled choose width size in
 $_lang['setting_kraken.height'] = 'Resize Height';
 $_lang['setting_kraken.height_desc'] = 'If Resize is enabled choose height size in px';
 $_lang['setting_kraken.strategy'] = 'Resize Strategy';
-$_lang['setting_kraken.strategy_desc'] = 'If Resize is enabled choose resize strategy from: fit, exact, portrait, landscape, crop, square';
+$_lang['setting_kraken.strategy_desc'] = 'If Resize is enabled choose resize strategy from: auto, fit, exact, portrait, landscape, crop, square';
 
 

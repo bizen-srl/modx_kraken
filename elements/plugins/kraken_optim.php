@@ -10,18 +10,15 @@ $core_path  = $modx->getOption('kraken.core_path', null, MODX_CORE_PATH . 'compo
 include_once $core_path . 'vendor/autoload.php';
 
 // System settings
-$kraken     = $modx->getOption('kraken.enable');        // Boolen Yes/No   - default: No
-$api        = $modx->getOption('kraken.api_key');       // String
-$api_secret = $modx->getOption('kraken.api_secret');    // String
-$lossy		= $modx->getOption('kraken.lossy');         // Boolean Yes/No  - default: Yes
-$quality	= $modx->getOption('kraken.lossy_quality'); // Number          - defualt: 75
-$resize     = $modx->getOption('kraken.resize');        // Boolean Yes/No  - default: No
-$width      = $modx->getOption('kraken.width');         // Number          - defualt: 1600
-$height     = $modx->getOption('kraken.height');        // Number
-$strategy   = $modx->getOption('kraken.strategy');      // String          - default: 'fit'
-
-// Init Kraken Class
-$kraken     = new Kraken($api, $api_secret);
+$kraken     = (bool)    $modx->getOption('kraken.enable');        // Boolen Yes/No   - default: No
+$api        = (string)  $modx->getOption('kraken.api_key');       // String
+$api_secret = (string)  $modx->getOption('kraken.api_secret');    // String
+$lossy		= (bool)    $modx->getOption('kraken.lossy');         // Boolean Yes/No  - default: Yes
+$quality	= (int)     $modx->getOption('kraken.lossy_quality'); // Number          - defualt: 75
+$resize     = (bool)    $modx->getOption('kraken.resize');        // Boolean Yes/No  - default: No
+$width      = (int)     $modx->getOption('kraken.width');         // Number          - defualt: 1600
+$height     = (int)     $modx->getOption('kraken.height');        // Number
+$strategy   = (string)  $modx->getOption('kraken.strategy');      // String          - default: 'fit'
 
 switch ($modx->event->name) {
     
@@ -49,40 +46,64 @@ switch ($modx->event->name) {
         $mediaSourceBasePath = $mediaSourceProps['basePath']['value'];
         // Get Full-size master image URL
         $sourceImageUrl      = MODX_SITE_URL . $mediaSourceBasePath . $directory . $fileName;
+        $sourceImagePath     = MODX_BASE_PATH . $mediaSourceBasePath . $directory . $fileName;
         // Get target image path
         $targetImagePath     = MODX_BASE_PATH . $mediaSourceBasePath . $directory . $fileName;
 		
 		//Check if file is an actual image 
-		$isImage = getimagesize($imagePath) ? true : false;
+		$isImage = getimagesize($sourceImagePath) ? true : false;
 		if (!$isImage) {
 			$modx->log(modX::LOG_LEVEL_ERROR, 'Kraken: '.$file["name"].' is not an image.');
 			return;
 		}
 
         //Check if Kraken is enabled through system settings
-        if(!$krakenEnabled) return;
+        if(!$kraken) return;
+
+        $apiEndpoint = "https://api.kraken.io/v1/url"; // A post request will be made to this endpoint
 
         // Setting compression params
         $params = array(
+            "auth" => array(
+                "api_key" => $api,
+                "api_secret" => $api_secret
+            ),
             "url" => $sourceImageUrl,
-			"wait" => true,
-			"resize" => ($resize) ? array( 
-				"width" => $width,
-				"height" => $height,
-				"strategy" => $strategy
-			): false,
-			"lossy" => boolval($lossy),
-			"quality" => $quality
+			"wait" => true
+        );
+
+        // Set lossy if enabled
+        if ($lossy) {
+            $params['lossy'] = true;
+            $params['quality'] = $quality;
+        };
+
+        // Set resize if enabled
+        if ($resize) $params['resize'] = array(
+            "width" => $width,
+            "height" => $height,
+            "strategy" => $strategy
         );
         
         // Uploading the compressed file
-        $data = $kraken->url($params);
-        
-        if ($data["success"]) {
-            file_put_contents($targetImagePath, $data["kraked_url"]);
-            $modx->log(modx::LOG_LEVEL_INFO, 'Kraken: Success. Optimized image URL: ' . $data["kraked_url"]);
+        $data = json_encode($params, JSON_FORCE_OBJECT);
+
+        $response = \Httpful\Request::put($apiEndpoint)
+            ->sendsJson()                        
+            ->body($data)
+            ->send(); 
+
+        if ($response->body->success) {
+            // optimization succeeded
+            file_put_contents($targetImagePath, $response->body->kraked_url);
+            $modx->log(modx::LOG_LEVEL_INFO, 'Kraken: Success. Optimized image URL: ' . $response->body->kraked_url);
+        } elseif (isset($response->body->message)) {
+            // something went wrong with the optimization
+            $modx->log(modx::LOG_LEVEL_ERROR, 'Kraken: Fail. Error message: ' . $response->body->message);
         } else {
-            $modx->log(modx::LOG_LEVEL_ERROR, 'Kraken: Fail. Error message: ' . $data["message"]);
+            // something went wrong with the request
+            echo "cURL request failed. Error message: " . $response->body->error;
+            $modx->log(modx::LOG_LEVEL_ERROR, "cURL request failed. Error message: " . $response->body->error);
         }
         
         break;
