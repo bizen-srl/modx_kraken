@@ -85,10 +85,11 @@ switch ($modx->event->name) {
             "strategy" => $strategy
         );
         
-        // Uploading the compressed file
+        // Turning array params to JSON
         $data = json_encode($params, JSON_FORCE_OBJECT);
 
-        $response = \Httpful\Request::put($apiEndpoint)
+        // Post request to the endpoint with JSON params
+        $response = \Httpful\Request::post($apiEndpoint)
             ->sendsJson()                        
             ->body($data)
             ->send(); 
