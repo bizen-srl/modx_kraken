@@ -3,7 +3,7 @@
  * @name Kraken
  * @description Just add your api and secret keys and all images will get optimized on upload with the Kraken API
  * @author Manuel Barbiero
- * @PluginEvents OnFileManagerFileUpdate
+ * @PluginEvents OnFileManagerUpload
  */
 
 $core_path  = $modx->getOption('kraken.core_path', null, MODX_CORE_PATH . 'components/kraken/');
@@ -22,7 +22,7 @@ $strategy   = (string)  $modx->getOption('kraken.strategy');      // String     
 
 switch ($modx->event->name) {
     
-    case 'OnFileManagerFileUpdate':
+    case 'OnFileManagerUpload':
         
         // Get the file
         $file = $modx->event->params['files']['file'];
@@ -62,12 +62,15 @@ switch ($modx->event->name) {
 
         $apiEndpoint = "https://api.kraken.io/v1/url"; // A post request will be made to this endpoint
 
+        // Setting auth api keys
+        $auth = array(
+            "api_key" => $api,
+            "api_secret" => $api_secret
+        );
+        
         // Setting compression params
         $params = array(
-            "auth" => array(
-                "api_key" => $api,
-                "api_secret" => $api_secret
-            ),
+            "auth" => $auth,
             "url" => $sourceImageUrl,
 			"wait" => true
         );
@@ -86,7 +89,7 @@ switch ($modx->event->name) {
         );
         
         // Turning array params to JSON
-        $data = json_encode($params, JSON_FORCE_OBJECT);
+        $data = json_encode($params);
 
         // Post request to the endpoint with JSON params
         $response = \Httpful\Request::post($apiEndpoint)
@@ -94,16 +97,15 @@ switch ($modx->event->name) {
             ->body($data)
             ->send(); 
 
-        if ($response->body->success) {
+        if (isset($response->body->success)) {
             // optimization succeeded
-            file_put_contents($targetImagePath, $response->body->kraked_url);
+            copy($response->body->kraked_url, $targetImagePath);
             $modx->log(modx::LOG_LEVEL_INFO, 'Kraken: Success. Optimized image URL: ' . $response->body->kraked_url);
         } elseif (isset($response->body->message)) {
             // something went wrong with the optimization
             $modx->log(modx::LOG_LEVEL_ERROR, 'Kraken: Fail. Error message: ' . $response->body->message);
         } else {
             // something went wrong with the request
-            echo "cURL request failed. Error message: " . $response->body->error;
             $modx->log(modx::LOG_LEVEL_ERROR, "cURL request failed. Error message: " . $response->body->error);
         }
         
