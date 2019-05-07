@@ -3,12 +3,14 @@ Kraken
 
 #Modx Package
 
-Just add your api and secret keys and all images will get optimized on upload with the Kraken API
+Just add your api and secret keys and all images will get optimised on upload
 
-Event: OnFileManagerFileUpdate
+- Enable/Disable Kraken through system settings
+- Lossy and Resize functionalities
 
-Further info are inside the plugin file.
+Author: Manuel Barbiero <manuel@bizen.it>
+Copyright 2019
 
-Repo
-=============
-https://bitbucket.org/bizensrl/kraken/src/master/
+Official Documentation: https://bitbucket.org/bizensrl/kraken/src/master/
+
+Bugs and Feature Requests: https://bitbucket.org/bizensrl/kraken/src/master/
