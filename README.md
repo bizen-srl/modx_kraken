@@ -1,16 +1,20 @@
-Kraken
-============
+# Kraken for MODX Revolution
 
-#Modx Package
+> **Version:** 1.0  
+> **Author:** Manuel Barbiero - [Bizen Srl](https://www.bizen.it)  
+> **Bugs and Requests:** [Kraken Issues](https://github.com/bizen-srl/kraken/issues)
 
-Just add your api and secret keys and all images will get optimised on upload
+## Documentation
+A MODX Revolution plugin that handles images compression and optimization on upload with the Kraken API.   
 
-- Enable/Disable Kraken through system settings
-- Lossy and Resize functionalities
+### Install
+- Simply download through Package Management, and install.
 
-Author: Manuel Barbiero <manuel@bizen.it>
-Copyright 2019
+### Setup
+- Go to System Settings 
+- Make sure Kraken is enable setting `kraken.enable` to 1/Yes.
+- Set your API Key on `kraken.api_key` and API Secret `kraken.api_secret`.
+- Set Resize and Lossy optimization settings
 
-Official Documentation: https://bitbucket.org/bizensrl/kraken/src/master/
-
-Bugs and Feature Requests: https://bitbucket.org/bizensrl/kraken/src/master/
+## License
+The code and the documentation are released under the [MIT License](https://opensource.org/licenses/MIT).
