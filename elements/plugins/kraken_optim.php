@@ -1,7 +1,7 @@
 <?php
 /**
  * @name Kraken
- * @description Just add your api and secret keys and all images will get optimised on upload with the Kraken API
+ * @description Handles images compression and optimization on upload with the Kraken API
  * @author Manuel Barbiero
  * @PluginEvents OnFileManagerUpload
  */
